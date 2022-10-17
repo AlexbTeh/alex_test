@@ -21,7 +21,7 @@ namespace bnmmoney
         {
 
             var respository = new BankRepository();
-            var valutes = respository.getData();
+            var valutes = respository.GetData();
             foreach (var item in valutes.Result)
             {
                 Console.WriteLine("Name " + item.Name + " Value " + item.Value + " Char code " + item.CharCode);

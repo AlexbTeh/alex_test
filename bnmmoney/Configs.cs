@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace bnmmoney
+public sealed class Configs
 {
-    public interface IBankRepository
-    {
-       Task<List<Valute>> GetData();
-    }
+
+    public const string Name = "Configs";
+
+    public string baseurl { get; set; }
 }

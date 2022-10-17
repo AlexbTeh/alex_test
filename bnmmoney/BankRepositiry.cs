@@ -1,15 +1,32 @@
-﻿using System.Net.Http.Headers;
+﻿
+using Microsoft.Extensions.Configuration;
+
+using System.Net.Http.Headers;
+using System.Reflection;
 using System.Xml.Serialization;
 
 namespace bnmmoney
 {
     public class BankRepository : IBankRepository
     {
+
         //
-        public async Task<List<Valute>> getData()
+        public async Task<List<Valute>> GetData()
         {
-            var data = DateTime.Now.ToString("dd.MM.yyyy"); ;
-            var url = $"https://bnm.md/ro/official_exchange_rates?get_xml=1&date={data}";
+            IConfiguration config = new ConfigurationBuilder()
+  
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
+                .Build();
+
+
+            Configs positionOptions = config.GetRequiredSection(Configs.Name).Get<Configs>();
+
+            // Write the values to the console.
+            Console.WriteLine($"KeyOne = {positionOptions.baseurl}");
+
+            var data = DateTime.Now.ToString("dd.MM.yyyy"); 
+            var url = $"{positionOptions.baseurl}{data}";
             var client = new HttpClient();
 
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
