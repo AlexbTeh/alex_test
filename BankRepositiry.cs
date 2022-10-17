@@ -18,8 +18,6 @@ namespace bnmmoney
             XmlSerializer serializer = new XmlSerializer(typeof(ValCurs));
             var valsCurs = (ValCurs)serializer.Deserialize(content);
 
-            Console.WriteLine("Count massive" + valsCurs.Valute.Count);
-
             return valsCurs.Valute;
         }
     }
