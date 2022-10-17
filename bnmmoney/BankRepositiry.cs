@@ -26,7 +26,7 @@ namespace bnmmoney
             Console.WriteLine($"KeyOne = {positionOptions.baseurl}");
 
             var data = DateTime.Now.ToString("dd.MM.yyyy"); 
-            var url = $"{positionOptions.baseurl}{data}";
+            var url = string.Format(positionOptions.baseurl,data);
             var client = new HttpClient();
 
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
