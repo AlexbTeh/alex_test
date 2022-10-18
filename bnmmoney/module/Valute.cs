@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace bnmmoney
+namespace bnmmoney.module
 {
     [XmlRoot(ElementName = "Valute")]
     public class Valute

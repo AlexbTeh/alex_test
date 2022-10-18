@@ -1,17 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
+﻿using bnmmoney.repository;
+
+//https://stackoverflow.com/questions/16352879/write-list-of-objects-to-a-file
 
 namespace bnmmoney
 {
@@ -24,7 +13,7 @@ namespace bnmmoney
             var valutes = respository.GetData();
             foreach (var item in valutes.Result)
             {
-                Console.WriteLine("Name " + item.Name + " Value " + item.Value + " Char code " + item.CharCode);
+                Console.WriteLine( item.Name + " " + item.Value + " " + item.CharCode);
             }
 
         }
