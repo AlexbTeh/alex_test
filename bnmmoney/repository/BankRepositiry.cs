@@ -8,7 +8,7 @@ using bnmmoney.utilities;
 
 namespace bnmmoney.repository
 {
-    public class BankRepository : IBankRepository
+    public class BankRepository : IBankRepository , IFileRepository
     {
 
         //
@@ -42,15 +42,36 @@ namespace bnmmoney.repository
                 XmlSerializer serializer = new XmlSerializer(typeof(ValCurs));
                 var valsCurs = (ValCurs)serializer.Deserialize(content);
 
-                FileUtilities.WriteToXmlFile<ValCurs>(FileUtilities.getPath(), valsCurs);
+                WriteToXmlFile<ValCurs>(FileUtilities.getPath(), valsCurs, false);
                 Console.WriteLine("The file not  exists.");
                 return valsCurs.Valute;
             } else
             {
                 Console.WriteLine("The file exists.");
-                var list = FileUtilities.ReadFromXmlFile<ValCurs>(FileUtilities.getPath());
+                var list = ReadFromXmlFile<ValCurs>(FileUtilities.getPath());
                 return list.Valute;
             }
+        }
+
+        T ReadFromXmlFile<T>(string filePath)
+        {
+            TextReader reader = null;
+            try
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                reader = new StreamReader(filePath);
+                return (T)serializer.Deserialize(reader);
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append)
+        {
+            throw new NotImplementedException();
         }
     }
 }
