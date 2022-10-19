@@ -8,7 +8,7 @@ using bnmmoney.utilities;
 
 namespace bnmmoney.repository
 {
-    public class BankRepository : IBankRepository , IFileRepository
+    public class BankRepository : IBankStore , IFileStore
     {
 
         //

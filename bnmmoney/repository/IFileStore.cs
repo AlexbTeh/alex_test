@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace bnmmoney.repository
 {
-    public interface IFileRepository
+    public interface IFileStore
     {
         void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false) where T : new();
 

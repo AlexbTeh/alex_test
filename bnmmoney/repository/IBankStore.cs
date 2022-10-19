@@ -7,7 +7,7 @@ using bnmmoney.module;
 
 namespace bnmmoney.repository
 {
-    public interface IBankRepository
+    public interface IBankStore
     {
         Task<List<Valute>> GetData();
     }
