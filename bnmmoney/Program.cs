@@ -8,8 +8,11 @@ namespace bnmmoney
     {
         static void Main(string[] args)
         {
+            var respository = new BankStore(
+                new HttpClientSource(),
+                new FileStore(), 
+                new ConfigurationStore());
 
-            var respository = new BankRepository();
             var valutes = respository.GetData();
             foreach (var item in valutes.Result)
             {

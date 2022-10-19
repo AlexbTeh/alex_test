@@ -13,7 +13,7 @@ namespace bnmmoney.utilities
         public static DateTime getFileCreationTime()
         {
             FileInfo file = new FileInfo(getPath());
-            return file.CreationTime;
+            return file.LastWriteTime;
         }
     }
 }
