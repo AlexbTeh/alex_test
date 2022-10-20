@@ -10,5 +10,7 @@ namespace bnmmoney.repository
     public interface IBankStore
     {
         Task<List<Valute>> GetData();
+
+        Task<List<Valute>> GetDataByDate(String  dateTime);
     }
 }
