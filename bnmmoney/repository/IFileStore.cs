@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace bnmmoney.repository
 {
-    public interface IFileStore
+    public interface IFileStore<T>
     {
-        void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false) where T : new();
+        void WriteToXmlFile<ValCurs>(string filePath, ValCurs objectToWrite, bool append = false);
 
-        T ReadFromXmlFile<T>(string filePath) where T : new();
+        ValCurs ReadFromXmlFile<ValCurs>(string filePath);
     }
 }

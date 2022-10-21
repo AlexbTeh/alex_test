@@ -1,14 +1,14 @@
-﻿using System;
+﻿using bnmmoney.module;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using bnmmoney.module;
 
 namespace bnmmoney.repository
 {
-    public interface IBankStore
+    public interface IBankDecorator
     {
-        Task<List<Valute>> GetDataByDate(String  dateTime);
+        Task<List<Valute>> getValutes();
     }
 }

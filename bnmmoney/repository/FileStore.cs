@@ -1,4 +1,5 @@
-﻿using System;
+﻿using bnmmoney.module;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,16 +8,16 @@ using System.Xml.Serialization;
 
 namespace bnmmoney.repository
 {
-    public class FileStore : IFileStore
+    public class FileStore : IFileStore<ValCurs>
     {
-        T IFileStore.ReadFromXmlFile<T>(string filePath)
+        public ValCurs ReadFromXmlFile<ValCurs>(string filePath)
         {
             TextReader reader = null;
             try
             {
-                var serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(ValCurs));
                 reader = new StreamReader(filePath);
-                return (T)serializer.Deserialize(reader);
+                return (ValCurs)serializer.Deserialize(reader);
             }
             finally
             {
@@ -25,12 +26,12 @@ namespace bnmmoney.repository
             }
         }
 
-        void IFileStore.WriteToXmlFile<T>(string filePath, T objectToWrite, bool append)
+        public void WriteToXmlFile<ValCurs>(string filePath, ValCurs objectToWrite, bool append)
         {
-          TextWriter writer = null;
+            TextWriter writer = null;
             try
             {
-                var serializer = new XmlSerializer(typeof(T));
+                var serializer = new XmlSerializer(typeof(ValCurs));
                 writer = new StreamWriter(filePath, append);
                 serializer.Serialize(writer, objectToWrite);
             }
