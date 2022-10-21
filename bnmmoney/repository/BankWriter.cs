@@ -1,24 +1,15 @@
 ﻿using bnmmoney.module;
-using bnmmoney.utilities;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace bnmmoney.repository
 {
     public class BankWriter : IBankDecorator
     {
         private readonly BankStore bankStore;
-        private readonly string dateTime;
-        public BankWriter(BankStore bankStore , String dateTime)
+        public BankWriter(BankStore bankStore)
         {
             this.bankStore = bankStore;
-            this.dateTime = dateTime;
         }
-       public  Task<List<Valute>> getValutes()
+       public  Task<List<Valute>> getValutes(DateTime dateTime)
         {
             return bankStore.GetDataByDate(dateTime);
         }

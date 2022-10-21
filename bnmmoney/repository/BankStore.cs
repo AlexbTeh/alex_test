@@ -9,27 +9,23 @@ namespace bnmmoney.repository
     {
         private readonly IConfigurationStore config;
         private readonly IHttpClientService httpClientService;
-        private readonly FileStore fileStore;
 
-        public BankStore(IHttpClientService httpClientService, FileStore fileStore,  IConfigurationStore config)
+        public BankStore(IHttpClientService httpClientService,  IConfigurationStore config)
         {
             this.config = config;
-            this.fileStore = fileStore;
             this.httpClientService = httpClientService;
         }
 
-        public async Task<List<Valute>> GetDataByDate(String dateTime)
+        public async Task<List<Valute>> GetDataByDate(DateTime dateTime)
         {
-            var date = Convert.ToDateTime(dateTime);
 
             Configs positionOptions = config.getConfiguration().GetRequiredSection(Configs.Name).Get<Configs>();
-            var url = string.Format(positionOptions.baseurl, date.ToString("dd.MM.yyyy"));
+            var url = string.Format(positionOptions.baseurl, dateTime.ToString("dd.MM.yyyy"));
             var content = httpClientService.getHttpClient().GetStreamAsync(url).Result;
 
             XmlSerializer serializer = new XmlSerializer(typeof(ValCurs));
             var valsCurs = (ValCurs)serializer.Deserialize(content);
 
-            fileStore.WriteToXmlFile<ValCurs>(FileUtilities.getPath(), valsCurs, false);
             Console.WriteLine("The file not  exists.");
             return valsCurs.Valute;
         }

@@ -9,6 +9,6 @@ namespace bnmmoney.repository
 {
     public interface IBankDecorator
     {
-        Task<List<Valute>> getValutes();
+        Task<List<Valute>> getValutes(DateTime dateTime);
     }
 }
