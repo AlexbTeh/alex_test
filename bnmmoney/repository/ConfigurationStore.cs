@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace bnmmoney.repository
 {
-    internal class ConfigurationStore : IConfigurationStore
+    public class ConfigurationStore : IConfigurationStore
     {
         IConfiguration IConfigurationStore.getConfiguration()
         {
