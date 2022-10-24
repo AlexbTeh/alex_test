@@ -1,4 +1,6 @@
+using bnmmoney.module;
 using bnmmoney.repository;
+using bnmmoney.utilities;
 
 namespace bnmmoney_unit_tests
 {
@@ -50,6 +52,36 @@ namespace bnmmoney_unit_tests
             var valutes = bankWriter.getValutes(dateTime);
 
             Assert.IsTrue(valutes.IsCompletedSuccessfully);
+        }
+
+        [Test]
+        public void WriteToFileSuccess()
+        {
+            string path = FileUtilities.getPath();
+            ValCurs valCurs = new ValCurs();
+            var valutes = new List<Valute>();
+            var valute = new Valute();
+            valute.Name = "Euro";
+            valutes.Add(valute);
+            valutes.Add(valute);
+            valutes.Add(valute);
+            valutes.Add(valute);
+            valutes.Add(valute);
+            valCurs.Valute = valutes;
+            fileStore.WriteToXmlFile(path, valCurs, false);
+
+            Assert.IsTrue(File.Exists(path));
+        }
+
+        [Test]
+        public void ReadFromFileSuccess()
+        {
+            string path = FileUtilities.getPath();
+            Assert.IsTrue(File.Exists(path), "File exists");
+            var valutes = fileStore.ReadFromXmlFile<ValCurs>(path).Valute;
+            Assert.IsTrue(valutes.Count > 0, "Read From File success and have items");
+
+        
         }
     }
 }
