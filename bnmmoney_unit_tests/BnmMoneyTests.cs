@@ -4,12 +4,12 @@ namespace bnmmoney_unit_tests
 {
     public class BnmMoneyTests
     {
-        private  FileStore fileStore;
-        private  ConfigurationStore config;
-        private  HttpClientSource httpClientSource;
-        private  BankStore bankStore;
-        private  BankWriter bankWriter;
-        private  BankLocal bankLocal;
+        private FileStore fileStore;
+        private ConfigurationStore config;
+        private HttpClientSource httpClientSource;
+        private BankStore bankStore;
+        private BankWriter bankWriter;
+        private BankLocal bankLocal;
 
         [SetUp]
         public void Setup()
@@ -17,9 +17,7 @@ namespace bnmmoney_unit_tests
             this.fileStore = new FileStore();
             this.config = new ConfigurationStore();
             this.httpClientSource = new HttpClientSource();
-            this.bankStore = new BankStore(
-                    new HttpClientSource(),
-               config);
+            this.bankStore = new BankStore(httpClientSource, config);
             this.bankWriter = new BankWriter(bankStore);
             this.bankLocal = new BankLocal(fileStore, bankWriter);
         }
