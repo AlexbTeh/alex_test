@@ -31,10 +31,9 @@ namespace bnmmoney_unit_tests
             string path = FileUtilities.getPath();
 
             config.Setup(m => m.BaseUrl(dateTime)).Returns(url);
-            httpClient.Setup(m => m.GetValCurs(url)).ReturnsAsync(new Fixture().Create<ValCurs>());
-
             ValCurs valCurs = new Fixture().Create<ValCurs>();
 
+            httpClient.Setup(m => m.GetValCurs(url)).ReturnsAsync(valCurs);
             fileStore.Setup(m => m.WriteToXmlFile(path, valCurs, false));
             fileStore.Setup(m => m.ReadFromXmlFile<ValCurs>(path)).Returns(valCurs);
 
