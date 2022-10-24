@@ -1,7 +1,4 @@
 ﻿using bnmmoney.module;
-using bnmmoney.utilities;
-using Microsoft.Extensions.Configuration;
-using System.Xml.Serialization;
 
 namespace bnmmoney.repository
 {
@@ -10,7 +7,7 @@ namespace bnmmoney.repository
         private readonly IConfigurationStore config;
         private readonly IHttpClientService httpClientService;
 
-        public BankStore(IHttpClientService httpClientService,  IConfigurationStore config)
+        public BankStore(IHttpClientService httpClientService, IConfigurationStore config)
         {
             this.config = config;
             this.httpClientService = httpClientService;
@@ -18,16 +15,17 @@ namespace bnmmoney.repository
 
         public async Task<List<Valute>> GetDataByDate(DateTime dateTime)
         {
-
-            Configs positionOptions = config.getConfiguration().GetRequiredSection(Configs.Name).Get<Configs>();
-            var url = string.Format(positionOptions.baseurl, dateTime.ToString("dd.MM.yyyy"));
-            var content = httpClientService.getHttpClient().GetStreamAsync(url).Result;
-
-            XmlSerializer serializer = new XmlSerializer(typeof(ValCurs));
-            var valsCurs = (ValCurs)serializer.Deserialize(content);
+            var content = await httpClientService.GetValCurs(config.BaseUrl(dateTime));
 
             Console.WriteLine("The file not  exists.");
-            return valsCurs.Valute;
+            if (content == null)
+            {
+                return new List<Valute>();
+            }
+            else
+            {
+                return content.Valute;
+            }
         }
     }
 }

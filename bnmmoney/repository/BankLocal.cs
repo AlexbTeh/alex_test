@@ -5,10 +5,10 @@ namespace bnmmoney.repository
 {
     public class BankLocal : IBankDecorator
     {
-        private readonly FileStore fileStore;
+        private readonly IFileStore<ValCurs> fileStore;
         private readonly IBankDecorator bankDecorator;
 
-        public BankLocal(FileStore fileStore, IBankDecorator bankDecorator)
+        public BankLocal(IFileStore<ValCurs> fileStore, IBankDecorator bankDecorator)
         {
             this.fileStore = fileStore;
             this.bankDecorator = bankDecorator;
@@ -23,11 +23,21 @@ namespace bnmmoney.repository
                 List<Valute> reposnse = await bankDecorator.getValutes(dateTime);
                 ValCurs valCurs = new ValCurs();
                 valCurs.Valute = reposnse;
-                fileStore.WriteToXmlFile(FileUtilities.getPath(), valCurs, false);
+                WriteToFile(valCurs);
                 return reposnse;
             }
 
             Console.WriteLine("The file exists.");
+            return ReadFromFile();
+        }
+
+        public void WriteToFile(ValCurs valCurs)
+        {
+            fileStore.WriteToXmlFile(FileUtilities.getPath(), valCurs, false);
+        }
+
+        public List<Valute> ReadFromFile()
+        {
             return fileStore.ReadFromXmlFile<ValCurs>(FileUtilities.getPath()).Valute;
         }
     }

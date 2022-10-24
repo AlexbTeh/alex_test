@@ -1,14 +1,16 @@
+using AutoFixture;
 using bnmmoney.module;
 using bnmmoney.repository;
 using bnmmoney.utilities;
+using Moq;
+using Moq.Protected;
+using System;
+using System.Net;
 
 namespace bnmmoney_unit_tests
 {
     public class BnmMoneyTests
     {
-        private FileStore fileStore;
-        private ConfigurationStore config;
-        private HttpClientSource httpClientSource;
         private BankStore bankStore;
         private BankWriter bankWriter;
         private BankLocal bankLocal;
@@ -16,72 +18,56 @@ namespace bnmmoney_unit_tests
         [SetUp]
         public void Setup()
         {
-            this.fileStore = new FileStore();
-            this.config = new ConfigurationStore();
-            this.httpClientSource = new HttpClientSource();
-            this.bankStore = new BankStore(httpClientSource, config);
-            this.bankWriter = new BankWriter(bankStore);
-            this.bankLocal = new BankLocal(fileStore, bankWriter);
-        }
 
-        [Test]
-        public void ValutesWithCorrectDateIsListEmpty()
-        {
-            string date = "14.09.2020";
+            var fileStore = new Mock<IFileStore<ValCurs>>();
+
+            var config = new  Mock<IConfigurationStore>();
+            var httpClient = new Mock<IHttpClientService>();
+
+            string date = "14.09.2022";
             var dateTime = Convert.ToDateTime(date);
-            var valutes = bankLocal.getValutes(dateTime);
 
-            Assert.IsNotEmpty("Valutes", "Valutes is not empty", valutes.Result);
+            var url = string.Format(Configs.Name, dateTime);
+            string path = FileUtilities.getPath();
+
+            config.Setup(m => m.BaseUrl(dateTime)).Returns(url);
+            httpClient.Setup(m => m.GetValCurs(url)).ReturnsAsync(new Fixture().Create<ValCurs>());
+
+            ValCurs valCurs = new Fixture().Create<ValCurs>();
+
+            fileStore.Setup(m => m.WriteToXmlFile(path, valCurs, false));
+            fileStore.Setup(m => m.ReadFromXmlFile<ValCurs>(path)).Returns(valCurs);
+
+            this.bankStore = new BankStore(httpClient.Object, config.Object);
+            this.bankWriter = new BankWriter(bankStore);
+            this.bankLocal = new BankLocal(fileStore.Object, bankWriter);
         }
 
         [Test]
-        public void ValutesWithWrongDateFromServer()
+        public async Task ValutesWithWrongDateFromServer()
         {
             string date = "14.09.1960";
             var dateTime = Convert.ToDateTime(date);
-            var valutes = bankWriter.getValutes(dateTime);
+            List<Valute> valutes = await bankLocal.getValutes(dateTime);
 
-            Assert.IsTrue(valutes.IsFaulted);
+            Assert.IsTrue(valutes.Count == 0);
         }
 
         [Test]
-        public void ValutesWithCorrectDateIsSuccesFromServer()
+        public async Task ValutesWithCorrectDateIsSuccesFromServer()
         {
-            string date = "14.09.2020";
+            string date = "14.09.2022";
             var dateTime = Convert.ToDateTime(date);
-            var valutes = bankWriter.getValutes(dateTime);
+            List<Valute> valutes = await bankLocal.getValutes(dateTime);
 
-            Assert.IsTrue(valutes.IsCompletedSuccessfully);
+            Assert.IsTrue(valutes.Count > 0);
         }
 
-        [Test]
-        public void WriteToFileSuccess()
-        {
-            string path = FileUtilities.getPath();
-            ValCurs valCurs = new ValCurs();
-            var valutes = new List<Valute>();
-            var valute = new Valute();
-            valute.Name = "Euro";
-            valutes.Add(valute);
-            valutes.Add(valute);
-            valutes.Add(valute);
-            valutes.Add(valute);
-            valutes.Add(valute);
-            valCurs.Valute = valutes;
-            fileStore.WriteToXmlFile(path, valCurs, false);
-
-            Assert.IsTrue(File.Exists(path));
-        }
 
         [Test]
         public void ReadFromFileSuccess()
         {
-            string path = FileUtilities.getPath();
-            Assert.IsTrue(File.Exists(path), "File exists");
-            var valutes = fileStore.ReadFromXmlFile<ValCurs>(path).Valute;
-            Assert.IsTrue(valutes.Count > 0, "Read From File success and have items");
-
-        
+            Assert.IsTrue(bankLocal.ReadFromFile().Count > 0);
         }
     }
 }

@@ -9,12 +9,23 @@ namespace bnmmoney.repository
 {
     public class ConfigurationStore : IConfigurationStore
     {
-        IConfiguration IConfigurationStore.getConfiguration()
+       public IConfiguration getConfiguration()
         {
             return new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
             .Build();
+        }
+
+        public IConfigurationSection GetRequiredSection(string name)
+        {
+            return getConfiguration().GetRequiredSection(name);
+        }
+
+        public string BaseUrl(DateTime dateTime)
+        {
+            string url = GetRequiredSection(Configs.Name).Get<Configs>().baseurl;
+            return string.Format(url, dateTime.ToString("dd.MM.yyyy"));
         }
     }
 }

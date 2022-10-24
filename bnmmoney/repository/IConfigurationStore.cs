@@ -10,5 +10,9 @@ namespace bnmmoney.repository
     public interface IConfigurationStore
     {
         IConfiguration getConfiguration();
+
+        IConfigurationSection GetRequiredSection(string name);
+
+        String BaseUrl(DateTime dateTime);
     }
 }
