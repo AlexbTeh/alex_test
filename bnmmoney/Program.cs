@@ -4,9 +4,15 @@
 
 namespace bnmmoney
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
+        {
+            getData(args[0]);
+
+        }
+
+        public static void getData(string time)
         {
             var fileStore = new FileStore();
             var bankStore = new BankStore(
@@ -14,7 +20,7 @@ namespace bnmmoney
             new ConfigurationStore());
 
 
-            var date = Convert.ToDateTime(args[0]);
+            var date = Convert.ToDateTime(time);
 
             var bankWriter = new BankWriter(bankStore);
             var bankLocal = new BankLocal(fileStore, bankWriter);
