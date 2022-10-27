@@ -20,7 +20,7 @@ namespace bnmmoney
             new ConfigurationStore());
 
 
-            var date = Convert.ToDateTime(time);
+            var date = DateTime.Parse(time);
 
             var bankWriter = new BankWriter(bankStore);
             var bankLocal = new BankLocal(fileStore, bankWriter);

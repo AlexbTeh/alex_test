@@ -5,7 +5,9 @@ using bnmmoney.repository;
 using bnmmoney.utilities;
 using Moq;
 using Moq.Protected;
+using NUnit.Framework.Constraints;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Net;
 
@@ -27,7 +29,7 @@ namespace bnmmoney_unit_tests
             var httpClient = new Mock<IHttpClientService>();
 
             string date = "14.09.2020";
-            var dateTime = Convert.ToDateTime(date);
+            var dateTime = DateTime.Parse(date);
 
             var url = string.Format(Configs.Name, dateTime);
             string path = FileUtilities.getPath();
@@ -48,7 +50,7 @@ namespace bnmmoney_unit_tests
         public async Task ValutesWithWrongDateFromMockServer()
         {
             string date = "14.09.1960";
-            var dateTime = Convert.ToDateTime(date);
+            var dateTime = DateTime.Parse(date);
             List<Valute> valutes = await bankLocal.getValutes(dateTime);
 
             Assert.IsTrue(valutes.Count == 0);
@@ -58,7 +60,7 @@ namespace bnmmoney_unit_tests
         public async Task ValutesWithCorrectDateIsSuccesFromMockServer()
         {
             string date = "14.09.2020";
-            var dateTime = Convert.ToDateTime(date);
+            var dateTime = DateTime.Parse(date);
             List<Valute> valutes = await bankLocal.getValutes(dateTime);
 
             Assert.IsTrue(valutes.Count > 0);

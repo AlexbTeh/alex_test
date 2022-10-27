@@ -32,7 +32,7 @@ public class HttpClientSourceTests
     public async Task ValutesWithCorrectDateIsNotEmpty()
     {
         string date = "14.09.2020";
-        var dateTime = Convert.ToDateTime(date);
+        var dateTime = DateTime.Parse(date);
 
         List<Valute> valutes =  await bankLocal.getValutes(dateTime);
         Assert.True(valutes.Count > 0);
@@ -42,7 +42,7 @@ public class HttpClientSourceTests
     public async Task ValutesWithWrongDateFromServer()
     {
         string date = "14.09.1960";
-        var dateTime = Convert.ToDateTime(date);
+        var dateTime = DateTime.Parse(date);
 
         try
         {
