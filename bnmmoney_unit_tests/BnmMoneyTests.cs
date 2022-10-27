@@ -26,7 +26,7 @@ namespace bnmmoney_unit_tests
             var config = new  Mock<IConfigurationStore>();
             var httpClient = new Mock<IHttpClientService>();
 
-            string date = "14.09.2012";
+            string date = "14.09.2020";
             var dateTime = Convert.ToDateTime(date);
 
             var url = string.Format(Configs.Name, dateTime);
@@ -57,7 +57,7 @@ namespace bnmmoney_unit_tests
         [Test]
         public async Task ValutesWithCorrectDateIsSuccesFromMockServer()
         {
-            string date = "14.09.2012";
+            string date = "14.09.2020";
             var dateTime = Convert.ToDateTime(date);
             List<Valute> valutes = await bankLocal.getValutes(dateTime);
 

@@ -82,6 +82,7 @@ public class HttpClientSourceTests
     [Test]
     public void ReadFromFileSuccess()
     {
+        WriteToFileSuccess();
         string path = FileUtilities.getPath();
         Assert.IsTrue(File.Exists(path), "File exists");
         var valutes = fileStore.ReadFromXmlFile<ValCurs>(path).Valute;
