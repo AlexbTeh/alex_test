@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation"
+    app:startDestination="@id/home_destination">
+
+    <fragment
+        android:id="@+id/home_destination"
+        android:name="com.test_crypto.feature_home.home.FragmentHome"
+        tools:layout="@layout/fragment_home">
+        <argument app:argType="string"
+            android:name="page"
+            android:defaultValue="home"/>
+
+    </fragment>
+
+    <action
+        android:id="@+id/openHome"
+        app:destination="@id/home_destination"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/home_navigation"
+        app:popUpToInclusive="false" />
+
+</navigation>

@@ -1,0 +1,144 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id "androidx.navigation.safeargs.kotlin"
+}
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.test_crypto"
+        minSdk 21
+        targetSdk 33
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            live {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                v2SigningEnabled true
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.live
+            }
+        }
+        debug {
+            //TEST
+            //minifyEnabled true
+            //shrinkResources true
+            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+/*    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }*/
+
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'org.jetbrains', module: 'annotations'
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        dev_app {
+            applicationId package_name_dev
+            versionCode app_version_code_dev.toInteger()
+            versionName app_version_name_dev
+            multiDexEnabled true
+            vectorDrawables.useSupportLibrary = true
+            resValue "string", "app_name", app_name_dev
+        }
+
+        live_app {
+            applicationId package_name_live
+            versionCode app_version_code_live.toInteger()
+            versionName app_version_name_live
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            multiDexEnabled true
+            vectorDrawables.useSupportLibrary = true
+            resValue "string", "app_name", app_name_live
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+
+    implementation project(path: ':feature-price-details')
+    implementation project(path: ':feature-home')
+    implementation project(path: ':domain')
+    implementation project(path: ':core-ui')
+    implementation project(":nav")
+
+    dev_appImplementation project(path: ':data')
+    live_appImplementation project(path: ':data')
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    testImplementation 'junit:junit:'
+    implementation libs.kotlinx.coroutinesAndroid
+    implementation libs.hilt.hilt_core
+    kapt libs.hilt.hilt_compiler
+    implementation libs.squareup.retrofit
+    implementation libs.squareup.logging
+    implementation libs.gson
+    implementation libs.squareup.gson_converter
+    implementation libs.navigation.navigation_fragment
+    implementation libs.navigation.navigation_fragment_ui_ktx
+    implementation libs.textSize.sdp
+    implementation libs.androidx.swipeRefresh
+    implementation libs.textSize.ssp
+    implementation libs.coil
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.datastore:datastore:1.0.0"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    implementation 'com.caverock:androidsvg-aar:1.4'
+}

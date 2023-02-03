@@ -1,0 +1,74 @@
+plugins {
+    id "com.android.library"
+    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
+    id "androidx.navigation.safeargs.kotlin"
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.0'
+    api project(path: ':nav')
+    implementation project(path: ':domain')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2'
+    api libs.gson
+    api libs.kotlinx.coroutinesAndroid
+    api libs.hilt.hilt_core
+    kapt libs.hilt.hilt_compiler
+    api libs.hilt.hilt_lifecycle_viewmodel
+    kapt libs.hilt.hilt_lifecycle_compiler
+    api libs.navigation.navigation_fragment
+    api libs.navigation.navigation_fragment_ui_ktx
+    implementation libs.squareup.retrofit
+    implementation libs.kotlinx.coroutinesAndroid
+    implementation libs.squareup.logging
+    implementation libs.squareup.gson_converter
+    implementation libs.gson
+    implementation "androidx.lifecycle:lifecycle-common:2.5.1"
+    api libs.coil
+    api libs.textSize.sdp
+    api libs.textSize.ssp
+    //reflect kotlin
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.10"
+
+}

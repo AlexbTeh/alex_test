@@ -1,0 +1,111 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 33
+        versionCode 2
+        versionName "1.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        dev_app {
+            dimension "version"
+            multiDexEnabled true
+            vectorDrawables.useSupportLibrary = true
+            buildConfigField "String", "API_PHONE_TRANSFERS_RECIPIENT", "\"test/transfers/recipient\""
+            buildConfigField "String", "API_PHONE_TRANSFERS", "\"test/transfers\""
+            buildConfigField "String", "API_BUYS", "\"test/buys\""
+            buildConfigField "String", "API_SWAPTS_QUOTE", "\"test/swaps/quote\""
+            buildConfigField "String", "API_SWAPS", "\"test/swaps\""
+            buildConfigField "String", "API_WITHDRAWALS", "\"test/withdrawals\""
+            buildConfigField "String", "API_WITHDRAWALS_VERIFY_EMAIL_RESEND", "\"test/withdrawals/{id}/verify-email/resend\""
+            buildConfigField "String", "API_WITHDRAWALS_VERIFY_PHONE_RESEND", "\"test/withdrawals/{id}/verify-phone/resend\""
+            buildConfigField "String", "API_WITHDRAWALS_VERIFY_EMAIL", "\"test/withdrawals/{id}/verify-email\""
+            buildConfigField "String", "API_WITHDRAWALS_VERIFY_PHONE", "\"test/withdrawals/{id}/verify-phone\""
+            buildConfigField "String", "API_GET_WITHDRAWAL", "\"test/withdrawals/{id}\""
+            buildConfigField "String", "API_TRANSACTIONS", "\"test/transactions\""
+            buildConfigField "String", "API_GET_TRANSFER", "\"test/transfers/{id}\""
+            buildConfigField "String", "API_TRASNFER_VERIFY_PHONE", "\"test/transfers/{id}/verify-phone\""
+            buildConfigField"String","VERSION_NAME","\"${defaultConfig.versionName}\""
+        }
+
+        live_app {
+            dimension "version"
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            multiDexEnabled true
+            vectorDrawables.useSupportLibrary = true
+            buildConfigField "String", "API_PHONE_TRANSFERS_RECIPIENT", "\"v2/transfers/recipient\""
+            buildConfigField "String", "API_PHONE_TRANSFERS", "\"v2/transfers\""
+            buildConfigField "String", "API_BUYS", "\"v1/buys\""
+            buildConfigField "String", "API_SWAPTS_QUOTE", "\"v1/swaps/quote\""
+            buildConfigField "String", "API_SWAPS", "\"v1/swaps\""
+            buildConfigField "String", "API_WITHDRAWALS", "\"v1/withdrawals\""
+            buildConfigField "String", "API_WITHDRAWALS_VERIFY_EMAIL_RESEND", "\"v1/withdrawals/{id}/verify-email/resend\""
+            buildConfigField "String", "API_WITHDRAWALS_VERIFY_PHONE_RESEND", "\"v1/withdrawals/{id}/verify-phone/resend\""
+            buildConfigField "String", "API_WITHDRAWALS_VERIFY_EMAIL", "\"v1/withdrawals/{id}/verify-email\""
+            buildConfigField "String", "API_WITHDRAWALS_VERIFY_PHONE", "\"v1/withdrawals/{id}/verify-phone\""
+            buildConfigField "String", "API_GET_WITHDRAWAL", "\"v1/withdrawals/{id}\""
+            buildConfigField "String", "API_TRANSACTIONS", "\"v1/transactions\""
+            buildConfigField "String", "API_GET_TRANSFER", "\"v2/transfers/{id}\""
+            buildConfigField "String", "API_TRASNFER_VERIFY_PHONE", "\"v2/transfers/{id}/verify-phone\""
+            buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation project(path: ':domain')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2'
+    implementation "androidx.datastore:datastore:1.0.0"
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    implementation libs.hilt.hilt_core
+    kapt libs.hilt.hilt_compiler
+    implementation libs.squareup.retrofit
+    implementation libs.kotlinx.coroutinesAndroid
+    implementation libs.squareup.logging
+    implementation libs.squareup.gson_converter
+    implementation libs.gson
+
+    api libs.room.runtime
+    kapt (libs.room.processor)
+    implementation (libs.room.ktx)
+    kapt "org.xerial:sqlite-jdbc:3.34.0"
+}

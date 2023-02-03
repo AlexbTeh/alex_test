@@ -1,0 +1,23 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "test_crypto"
+include ':app'
+include ':nav'
+include ':core-ui'
+include ':domain'
+include ':data'
+include ':components'
+include ':feature-home'
+include ':feature-price-details'

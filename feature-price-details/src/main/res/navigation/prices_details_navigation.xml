@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/prices_details_navigation"
+    app:startDestination="@id/price_details_destination">
+
+    <fragment
+        android:id="@+id/price_details_destination"
+        android:name="com.test_crypto.feature_price_details.FragmentPricesDetails"
+        tools:layout="@layout/fragment_price_details">
+
+        <deepLink app:uri="currency://details?code={code}"/>
+        <deepLink app:uri="https://www.oobit.com/coins/{code}"/>
+
+        <argument
+            android:name="code"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/openPriceDetails"
+            app:destination="@id/price_details_destination" />
+    </fragment>
+
+</navigation>

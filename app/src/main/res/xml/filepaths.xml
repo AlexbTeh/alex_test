@@ -1,0 +1,24 @@
+<paths>
+    <external-files-path
+        name="images"
+        path="Pictures" />
+    <files-path
+        name="allfiles"
+        path="/" />
+    <external-path
+        name="external"
+        path="." />
+    <external-files-path
+        name="external_files"
+        path="." />
+    <cache-path
+        name="cache"
+        path="." />
+    <external-cache-path
+        name="external_cache"
+        path="." />
+    <files-path
+        name="files"
+        path="." />
+<!--    <root-path name="root" path="." />-->
+</paths>

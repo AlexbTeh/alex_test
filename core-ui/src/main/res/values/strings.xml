@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="prices">Prices</string>
+	<string name="api_error">Error opps…</string>
+	<string name="api_error_general">Error general opps…</string>
+	<string name="watchlist">WatchList</string>
+</resources>

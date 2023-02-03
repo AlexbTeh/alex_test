@@ -1,0 +1,130 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+
+    }
+
+    dependencies {
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.39.1"
+        classpath "com.android.tools.build:gradle:7.0.4"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3"
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+
+    ext {
+        compose_version = '1.0.4'
+
+        versions = [
+                coroutines              : "1.5.2",
+                retrofit                : "2.9.0",
+                coil                    : "1.4.0",
+                timber                  : "5.0.1",
+                hilt                    : '2.40.5',
+                hilt_lifecycle_compiler : '1.0.0',
+                hilt_lifecycle_viewmodel: '1.0.0-alpha03',
+                retrofit_json           : "2.9.0",
+                retrofit_logging        : '5.0.0-alpha.2',
+                gson                    : '2.8.9',
+                ok_http                 : "4.9.0",
+                navigation              : "2.4.1",
+                sdp                     : "1.0.6",
+                ssp                     : "1.0.6",
+                swipe                   : "1.1.0",
+                shimmer                 : "0.5.0",
+                chart                   : "v3.1.0",
+                qr_code                 : "4.3.0",
+                room                    : "2.3.0",
+                libphoneutil            : '8.12.39',
+                sumsub                  : "1.18.3",
+                permission              : "1.6.1",
+                qr_code_core            : "3.3.0",
+                barcode_scanning        : "17.0.1",
+                camera                  : "1.0.2",
+                camera_view             : "1.0.0-alpha31",
+                paging                  : "3.1.0"
+        ]
+
+        buildConfigs = [
+                compileSdk: 31,
+                minSdk    : 21,
+                targetSdk : 31,
+                version   : [
+                        code: 1,
+                        name: "1.0"
+                ],
+                id        : "com.oobit"
+        ]
+
+        libs = [
+                kotlinx   : [
+                        coroutinesCore   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}",
+                        coroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
+                ],
+                androidx  : [
+                        swipeRefresh          : "androidx.swiperefreshlayout:swiperefreshlayout:${versions.swipe}",
+                        shimmer               : "com.facebook.shimmer:shimmer:${versions.shimmer}",
+                        graph_chart           : "com.github.PhilJay:MPAndroidChart:${versions.chart}",
+                        generate_qr_code      : "com.journeyapps:zxing-android-embedded:${versions.qr_code}",
+                        phoneutil             : "com.googlecode.libphonenumber:libphonenumber:${versions.libphoneutil}",
+                        sumsub_sdk            : "com.sumsub.sns:idensic-mobile-sdk:${versions.sumsub}",
+                        sumsub_proface        : "com.sumsub.sns:idensic-mobile-sdk-prooface:${versions.sumsub}",
+                        permissions           : "com.guolindev.permissionx:permissionx:${versions.permission}",
+                        create_qr_code_core   : "com.google.zxing:core:${versions.qr_code_core}",
+                        mlkit_barcode_scanning: "com.google.mlkit:barcode-scanning:${versions.barcode_scanning}",
+                        camera                : "androidx.camera:camera-camera2:${versions.camera}",
+                        camera_lifecycle      : "androidx.camera:camera-lifecycle:${versions.camera}",
+                        camera_view           : "androidx.camera:camera-view:${versions.camera_view}",
+                ],
+                squareup  : [
+                        retrofit      : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+                        logging       : "com.squareup.okhttp3:logging-interceptor:${versions.retrofit_logging}",
+                        gson_converter: "com.squareup.retrofit2:converter-gson:${versions.retrofit_json}",
+                        ok_http       : "com.squareup.okhttp3:okhttp:${versions.ok_http}"
+                ],
+                coil      : ["io.coil-kt:coil:${versions.coil}",
+                             "io.coil-kt:coil-svg:${versions.coil}"],
+                timber    : "com.jakewharton.timber:timber:${versions.timber}",
+                hilt      : [
+                        hilt_core               : "com.google.dagger:hilt-android:${versions.hilt}",
+                        hilt_compiler           : "com.google.dagger:hilt-android-compiler:${versions.hilt}",
+                        hilt_lifecycle_viewmodel: "androidx.hilt:hilt-lifecycle-viewmodel:${versions.hilt_lifecycle_viewmodel}",
+                        hilt_lifecycle_compiler : "androidx.hilt:hilt-compiler:${versions.hilt_lifecycle_compiler}",
+                ],
+
+                gson      : "com.google.code.gson:gson:${versions.gson}",
+                navigation: [
+                        navigation_fragment       : "androidx.navigation:navigation-fragment-ktx:${versions.navigation}",
+                        navigation_fragment_ui_ktx: "androidx.navigation:navigation-ui-ktx:${versions.navigation}"
+                ],
+                textSize  : [
+                        sdp: "com.intuit.sdp:sdp-android:${versions.sdp}",
+                        ssp: "com.intuit.ssp:ssp-android:${versions.ssp}"
+                ],
+
+                room      : [
+                        runtime  : "androidx.room:room-runtime:${versions.room}",
+                        processor: "androidx.room:room-compiler:${versions.room}",
+                        ktx      : "androidx.room:room-ktx:${versions.room}"
+                ],
+
+                paging    : "androidx.paging:paging-runtime:${versions.paging}",
+        ]
+    }
+
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'com.intellij', module: 'annotations'
+    }
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
